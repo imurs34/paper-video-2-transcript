@@ -24,7 +24,7 @@ const pdfBlock = [
   },
   {
     paragraph: [12, 13, 19],
-    colour: yellow,
+    colour: platinum,
     background: '',
   },
   {
