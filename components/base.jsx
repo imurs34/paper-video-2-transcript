@@ -52,7 +52,6 @@ const Loading = styled.div`
   > p {
     color: white;
   }
-
   z-index: 200;
   background-color: black;
   position: fixed;

@@ -1,11 +1,13 @@
-import dynamic from "next/dynamic";
-import reset from "styled-reset";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
-import "../styles/globals.css";
-import { LINE_HEIGHT } from "../store";
+import dynamic from 'next/dynamic';
+import reset from 'styled-reset';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { store } from '../redux/store';
+import { Provider } from 'react-redux';
+import '../styles/globals.css';
+import { LINE_HEIGHT } from '../store';
 // Import the styles provided by the react-pdf-viewer packages
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 
 const GlobalStyle = createGlobalStyle`
     ${reset}
@@ -18,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
 
 const theme = {
   colors: {
-    primary: "#0070f3",
+    primary: '#0070f3',
   },
 };
 
@@ -27,7 +29,9 @@ function App({ Component, pageProps }) {
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
       </ThemeProvider>
     </>
   );
