@@ -52,7 +52,6 @@ const Loading = styled.div`
   > p {
     color: white;
   }
-
   z-index: 200;
   background-color: black;
   position: fixed;
@@ -206,9 +205,9 @@ const Base = ({ input, paragraphs, width, transcription }) => {
           content="viewport-fit=cover, user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
         />
       </Head>
-      <div className={`flex flex-col justify-center items-center h-screen mx-8 py-10`}>
+      <div className={`flex flex-col justify-center items-center h-screen mx-8`}>
         <Container
-          className={`node w-full h-[40%] items-center`}
+          className={`node w-full h-[50%] items-center`}
           id="videoContainer"
           isDark={dark}
         >
@@ -255,7 +254,7 @@ const Base = ({ input, paragraphs, width, transcription }) => {
             <ControllerLine content={content} />
           </ControllerContainer>
         </Container>
-        <div className="h-[40%] w-full" >
+        <div className="h-[20%] w-full" >
           <Subtitles subtitles={transcription} ></Subtitles>
         </div>
       </div>
