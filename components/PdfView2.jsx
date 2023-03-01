@@ -12,6 +12,7 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/highlight/lib/styles/index.css";
 import pdfmap2 from "../pdfmap2.json";
 import pdf1copy from "../pdf1copy.json";
+import pdf2copy from "../pdfmap2copy.json";
 import blockColours from "../constants/colourBlock";
 import sectionBlock from "../constants/sectionBlock";
 
@@ -80,7 +81,7 @@ function PdfView2({ width }) {
   }, [ref]);
 
   const paragraphColour = (array, colour, props) => (
-    pdfmap
+    pdf2copy
         .filter((item, index) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
         .map((area, idx) => (
           <div 

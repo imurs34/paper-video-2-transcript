@@ -24,42 +24,37 @@ const pdfBlock = [
   },
   {
     paragraph: [12, 13, 19],
-    colour: darkBlue,
+    colour: yellow,
     background: '',
   },
   {
     paragraph: [21, 24, 26],
-    colour: salmon,
+    colour: linen,
     background: '',
   },
   {
-    paragraph: [27, 29, 33],
-    colour: petrolBlue,
-    background: '',
-  },
-  {
-    paragraph: [36, 40, 45],
-    colour: pink,
+    paragraph: [27, 29, 33, 36, 40, 45],
+    colour: champagnePink,
     background: '',
   },
   {
     paragraph: [48, 49, 50, 58, 61],
-    colour: purple,
+    colour: teaRose,
     background: '',
   },
   {
     paragraph: [66, 75, 76, 84],
-    colour: lightGreen,
-    background: '',
-  },
-  {
-    paragraph: [85, 89, 94, 99, 101, 104],
     colour: columbiaBlue,
     background: '',
   },
   {
+    paragraph: [85, 89, 94, 99, 101, 104],
+    colour: linen,
+    background: '',
+  },
+  {
     paragraph: [102],
-    colour: petrolBlue,
+    colour: champagnePink,
     background: '',
   },
 ];
