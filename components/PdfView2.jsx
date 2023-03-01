@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import pdfmap from "../pdfmap1.json";
 import { useAtom } from "jotai";
+import { useSelector } from 'react-redux';
 import { paragraphAtom, activityAtom } from "../atom";
 import { Viewer, Worker, SpecialZoomLevel } from "@react-pdf-viewer/core";
 import { highlightPlugin, Trigger } from "@react-pdf-viewer/highlight";
@@ -10,6 +11,9 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/highlight/lib/styles/index.css";
 import pdfmap2 from "../pdfmap2.json";
+import pdf1copy from "../pdf1copy.json";
+import blockColours from "../constants/colourBlock";
+import sectionBlock from "../constants/sectionBlock";
 
 function PdfView2({ width }) {
   const [paragraphs, setParagraphAtom] = useAtom(paragraphAtom)
@@ -23,6 +27,10 @@ function PdfView2({ width }) {
 
   const [areas, setAreas] = React.useState([]);
   const [ref, setRef] = useState(null);
+
+  const map1Toggle = useSelector((state) => state.toggle.map1);
+  const map2Toggle = useSelector((state) => state.toggle.map2);
+
   useEffect(() => {
     try {
       if (paragraphs) {
@@ -44,6 +52,7 @@ function PdfView2({ width }) {
     }
 
   }, [paragraphs]);
+  
   useEffect(() => {
     const found = pdfmap2.find(item => item.slide_id === current.slide)
     if (found)
@@ -57,6 +66,7 @@ function PdfView2({ width }) {
       }
     });
   };
+
   useEffect(() => {
     const el = document.getElementById("highlight-area");
     if (el) {
@@ -68,14 +78,75 @@ function PdfView2({ width }) {
       }, 500);
     }
   }, [ref]);
-  const renderHighlights = (props) => (
-    < div >
-      {
-        areas
-          .filter((area) => area.pageIndex === props.pageIndex)
+
+  const paragraphColour = (array, colour, props) => (
+    pdfmap
+        .filter((item, index) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
+        .map((area, idx) => (
+          <div 
+          style={Object.assign(
+            {},
+            props.getCssProperties(area.highlights[0], props.rotation),
+            {
+              [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `10px solid ${colour}`,
+              [area.highlights[0].left > 50 && 'marginLeft']: '16px',
+              [area.highlights[0].left < 50 && 'marginLeft']: '-16px',
+            },
+            
+          )}
+          />
+        ))
+)
+
+const sectionColour = (array, colour, props) => (
+  pdf1copy
+      .filter((item, index) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
+      .map((area, idx) => (
+        <div 
+        style={Object.assign(
+          {},
+          props.getCssProperties(area.highlights[0], props.rotation),
+          {
+            [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `10px solid ${colour}`,
+            [area.highlights[0].left > 50 && 'marginLeft']: '36px',
+            [area.highlights[0].left < 50 && 'marginLeft']: '-36px',
+          },
+          
+        )}
+        />
+      ))
+)
+
+  const highlightColour = (array, colour, props) => (
+    pdfmap
+          .filter((item, index) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
           .map((area, idx) => (
             <div
               key={idx}
+
+              style={Object.assign(
+                {},
+                {
+                  background: colour,
+                  opacity: 0.18,
+                  mixBlendMode: 'multiply',
+                },
+                props.getCssProperties(area.highlights[0], props.rotation)
+              )}
+            />
+          ))
+  )
+
+  
+
+  const renderHighlights = (props) => (
+    < div >
+    {
+      areas
+          .filter((area) => area.pageIndex === props.pageIndex)
+          .map((area, idx) => (
+            <div style={{display: 'flex'}} key={idx}>
+            <div
               className="highlight-area z-10"
               id="highlight-area"
               ref={(ref) => setRef(ref)}
@@ -84,22 +155,39 @@ function PdfView2({ width }) {
                 {
                   background: "yellow",
                   opacity: 0.18,
+                  mixBlendMode: "multiply",
                 },
-                // Calculate the position
-                // to make the highlight area displayed at the desired position
-                // when users zoom or rotate the document
                 props.getCssProperties(area, props.rotation)
               )}
             />
+            </div>
           ))
-      }
+    }
+
+    {/* MAP1 */}
+    {map1Toggle && (
+      sectionBlock.map((item, index) => sectionColour(item.paragraph, item.colour, props))
+    )}
+
+    {/* MAP2 */}
+    {map2Toggle && (
+      <>
+        {/* {paragraphColour.map((item, index) => highlightColour(item.paragraph, item.background, props))} */}
+        {blockColours.map((item, index) => paragraphColour(item.paragraph, item.colour, props))}
+      </>
+    )}
     </div >
   );
+
+
 
   const highlightPluginInstance = highlightPlugin({
     renderHighlights,
     trigger: Trigger.None,
   });
+
+
+
 
   return (
     <div
