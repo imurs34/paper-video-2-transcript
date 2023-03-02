@@ -48,8 +48,6 @@ const ControllerLine = ({ content }) => {
     );
   }
 
-
-
   return (
     <Line>
       {timelineColour.map((time, index, array) => {
@@ -59,16 +57,13 @@ const ControllerLine = ({ content }) => {
             : array.slice(0, index).reduce((sum, t) => {
                 return sum + convertTime(t.start);
               }, 0);
-        const start = ((convertTime(time.start)) * 100) / duration;
+        const start = (convertTime(time.start) * 100) / duration;
+        const previousFinal = index === 0 ? 0 : convertTime(array[index - 1].final);
+        const value = ((convertTime(time.final) - previousFinal) / duration) * 100;
         return (
           <div key={index}>
-            <LinePoint
-              key={shortid.generate()}
-              colour={time.colour}
-              value={((convertTime(time.final) / duration) * 100)}
-              start={start}
-            >
-              <Segmentation colour='transparent' />
+            <LinePoint key={shortid.generate()} colour={time.colour} value={value} start={start}>
+              <Segmentation colour="transparent" />
             </LinePoint>
           </div>
         );
