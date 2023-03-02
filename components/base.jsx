@@ -48,14 +48,10 @@ const ControllerLine = ({ content }) => {
     );
   }
 
-  const parentRef = useRef(null); // create a ref to the parent div
-  useEffect(() => {
-    const parentWidth = parentRef.current.offsetWidth; // get the width of the parent div
-    // use parentWidth to calculate the start value
-  }, [parentRef.current]);
+
 
   return (
-    <Line ref={parentRef}>
+    <Line>
       {timelineColour.map((time, index, array) => {
         const previousStartTimesSum =
           index === 0
