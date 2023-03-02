@@ -1,21 +1,21 @@
-import _ from "lodash";
-import styled, { css } from "styled-components";
-import { createBreakpoint } from "react-use";
-import { useAtom } from "jotai";
-import { useEffect, useRef, useState } from "react";
+import _ from 'lodash';
+import styled, { css } from 'styled-components';
+import { createBreakpoint } from 'react-use';
+import { useAtom } from 'jotai';
+import { useEffect, useRef, useState } from 'react';
 
-import useWindowHeight from "../hooks/windowHeight";
-import { MOBILE_VALUE } from "../store";
-import { LINE_HEIGHT } from "../store";
+import useWindowHeight from '../hooks/windowHeight';
+import { MOBILE_VALUE } from '../store';
+import { LINE_HEIGHT } from '../store';
 import {
   darkModeAtom,
   frameHeightAtom,
   withFrameAtom,
   highlightAtom,
   paragraphAtom,
-} from "../atom";
+} from '../atom';
 
-import pdfmap2 from "../pdfmap2.json";
+import pdfmap2 from '../pdfmap2.json';
 
 const useBreakpoint = createBreakpoint({ XL: 1280, L: 768, S: 350 });
 
@@ -30,7 +30,7 @@ function Text({ obj, isFull, currentParagraphs, width }) {
   const onClick = (e) => {
     setHighlightAtom(e.target.id);
     pdfmap2.map((item) => {
-      if (Number(item.slide_id) == obj.slide_id) {
+      if (+(item.slide_id) === obj.slide_id) {
         setParagraphAtom(item);
       }
     });
@@ -46,14 +46,13 @@ function Text({ obj, isFull, currentParagraphs, width }) {
   useEffect(() => {
     let size = obj.avail_font_size * (width > 30 ? width / 4 : width / 4.5);
     let fontWeight = obj.font_weight || 400;
-    if (frameHeight && height && ["S", "L"].includes(breakpoint)) {
+    if (frameHeight && height && ['S', 'L'].includes(breakpoint)) {
       size *= ((height - 80) / frameHeight) * MOBILE_VALUE;
       setGoal({ fontSize: size, lineHeight: LINE_HEIGHT, fontWeight });
     } else {
       setGoal({ fontSize: size, lineHeight: LINE_HEIGHT, fontWeight });
     }
   }, [frameHeight, height, isFull, withFrame]);
-  // console.log(obj.text_content);
 
   return (
     <Container fixed={fixed} isDark={dark}>
@@ -81,7 +80,7 @@ const P = styled.p`
   line-height: ${(props) => props.goal.lineHeight}%;
   letter-spacing: 0;
   overflow-wrap: wrap;
-  color: ${(props) => (props.color ? `rgb${props.color}` : "black")};
+  color: ${(props) => props.color && `rgb${props.color}`};
   background-color: ${(props) =>
     props.highlight === props.id ? `rgb(72, 0, 72, 0.5)` : `rgb${props.bg}`};
   font-family: ${(props) => props.typeFace};
@@ -93,7 +92,7 @@ const Container = styled.div`
   cursor: pointer;
   min-height: 20px;
   box-sizing: border-box;
-  visibility: ${(props) => (props.fixed ? "hidden" : "visible")};
+  visibility: ${(props) => (props.fixed ? 'hidden' : 'visible')};
 `;
 
 export default Text;
