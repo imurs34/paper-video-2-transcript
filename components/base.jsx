@@ -1,31 +1,45 @@
-import _ from "lodash";
-import Head from "next/head";
-import React from "react";
-import shortid from "shortid";
-import styled, { css } from "styled-components";
-import { createBreakpoint } from "react-use";
-import { useAtom } from "jotai";
-import { useEffect, useRef, useState } from "react";
+import _ from 'lodash';
+import Head from 'next/head';
+import React from 'react';
+import shortid from 'shortid';
+import styled, { css } from 'styled-components';
+import { createBreakpoint } from 'react-use';
+import { useAtom } from 'jotai';
+import { useEffect, useRef, useState } from 'react';
 
-import Content from "./Content";
-import Controller from "./Controller";
-import Video from "./Video";
+import Content from './Content';
+import Controller from './Controller';
+import Video from './Video';
 import {
   darkModeAtom,
   durationAtom,
   frameHeightAtom,
   mobileModeAtom,
   withVideoAtom,
-} from "../atom";
-import useWindowOrientation from "use-window-orientation";
-import Subtitles from "./Subtitles";
+} from '../atom';
+import useWindowOrientation from 'use-window-orientation';
+import Subtitles from './Subtitles';
+import timelineColour from '../timelineColour.json';
 
 const useBreakpoint = createBreakpoint({ XL: 1280, L: 768, S: 350 });
+
+const convertTime = (time) => {
+  const timeSplit = time.split(':');
+  const minutes = parseInt(timeSplit[0]);
+  const seconds = parseInt(timeSplit[1]);
+  return minutes * 60 + seconds;
+};
+
+const positionSegmentation = (start, duration, index) => {
+  const startPercent = (convertTime(start) / duration) * 100;
+  // const endPercent = (convertTime(end) / duration) * 100;
+  return 0;
+};
 
 const ControllerLine = ({ content }) => {
   const [duration] = useAtom(durationAtom);
 
-  const startTimes = _.map(content, "end_time");
+  const startTimes = _.map(content, 'end_time');
   if (!duration) {
     return (
       <Loading key={shortid.generate()}>
@@ -34,13 +48,31 @@ const ControllerLine = ({ content }) => {
     );
   }
 
+  const parentRef = useRef(null); // create a ref to the parent div
+  useEffect(() => {
+    const parentWidth = parentRef.current.offsetWidth; // get the width of the parent div
+    // use parentWidth to calculate the start value
+  }, [parentRef.current]);
+
   return (
-    <Line>
-      {startTimes.map((time, index) => {
+    <Line ref={parentRef}>
+      {timelineColour.map((time, index, array) => {
+        const previousStartTimesSum =
+          index === 0
+            ? 0
+            : array.slice(0, index).reduce((sum, t) => {
+                return sum + convertTime(t.start);
+              }, 0);
+        const start = ((convertTime(time.start)) * 100) / duration;
         return (
           <div key={index}>
-            <LinePoint key={shortid.generate()} value={(time / duration) * 100}>
-              <Circle />
+            <LinePoint
+              key={shortid.generate()}
+              colour={time.colour}
+              value={((convertTime(time.final) / duration) * 100)}
+              start={start}
+            >
+              <Segmentation colour='transparent' />
             </LinePoint>
           </div>
         );
@@ -57,29 +89,33 @@ const Loading = styled.div`
   position: fixed;
   min-width: 100%;
   min-height: 100%;
-  display: ${(props) => (props.isLoading ? "flex" : "none")};
+  display: ${(props) => (props.isLoading ? 'flex' : 'none')};
   flex: 1;
   align-items: center;
   justify-content: center;
 `;
 
-const Circle = styled.div`
+const Segmentation = styled.div`
   width: 2px;
   height: 10px;
   position: absolute;
   left: 100%;
   z-index: 999;
   /* border-radius: 45%; */
-  background-color: #25252599;
+  background-color: ${(props) => props.colour};
 `;
+
 const LinePoint = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
+  left: ${(props) => props.start}%;
   margin-top: 5px;
   width: ${(props) => props.value}%;
   height: 10px;
+  background-color: ${(props) => props.colour};
+  opacity: 0.5;
 `;
+
 const Line = styled.div`
   margin-top: 5px;
   pointer-events: none;
@@ -90,53 +126,28 @@ const Line = styled.div`
   z-index: 200;
   overflow: hidden;
   top: 0;
-  > div:last-child {
-    visibility: hidden;
-  }
 `;
 
 const modeSelector = ({ mobile, dark }) => {
-  if (mobile === false && dark === false) {
-    return "original";
-  }
-
-  if (mobile === false && dark === true) {
-    return "original_dark";
-  }
-
-  if (mobile === true && dark === false) {
-    return "restructure";
-  }
-
-  if (mobile === true && dark === true) {
-    return "restructure_dark";
-  }
+  if (mobile && dark) return 'restructure_dark';
+  if (mobile) return 'restructure';
+  if (dark) return 'original_dark';
+  return 'original';
 };
-const imageSelector = ({ location, dark }) => {
-  if ((location === "top") & (dark === false)) {
-    return "top_img";
-  }
-  if ((location === "top") & (dark === true)) {
-    return "top_img_dark";
-  }
 
-  if ((location === "bottom") & (dark === false)) {
-    return "bottom_img";
-  }
-  if ((location === "bottom") & (dark === true)) {
-    return "bottom_img_dark";
-  }
+const imageSelector = ({ location, dark }) => {
+  const locationPrefix = location === 'top' ? 'top_img' : 'bottom_img';
+  return dark ? `${locationPrefix}_dark` : locationPrefix;
 };
 
 const Base = ({ input, paragraphs, width, transcription }) => {
   useEffect(() => {
-    let videoContainer = document.getElementById("videoContainer");
+    let videoContainer = document.getElementById('videoContainer');
     if (videoContainer != null) {
-      let videoContainer = document.getElementById("videoContainer");
-      videoContainer.style.height = `${(videoContainer.clientWidth / input.template.width) *
-        input.template.height +
-        60
-        }px`;
+      let videoContainer = document.getElementById('videoContainer');
+      videoContainer.style.height = `${
+        (videoContainer.clientWidth / input.template.width) * input.template.height + 60
+      }px`;
     }
   }, [width]);
   const [dark] = useAtom(darkModeAtom);
@@ -171,8 +182,8 @@ const Base = ({ input, paragraphs, width, transcription }) => {
 
   const frameInfo = {
     sourcePath: input.sourcePath,
-    topBg: input.template[imageSelector({ location: "top", dark })],
-    bottomBg: input.template[imageSelector({ location: "bottom", dark })],
+    topBg: input.template[imageSelector({ location: 'top', dark })],
+    bottomBg: input.template[imageSelector({ location: 'bottom', dark })],
     topHeight: (input.template.top_padding / input.template.height) * 100,
     bottomHeight: (input.template.bottom_padding / input.template.height) * 100,
   };
@@ -196,27 +207,20 @@ const Base = ({ input, paragraphs, width, transcription }) => {
           return <link href={url} key={index} rel="stylesheet" />;
         })}
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta
           name="viewport"
           content="viewport-fit=cover, user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
         />
       </Head>
       <div className={`flex flex-col justify-center items-center h-screen mx-8`}>
-        <Container
-          className={`node w-full h-[50%] items-center`}
-          id="videoContainer"
-          isDark={dark}
-        >
+        <Container className={`node w-full h-[50%] items-center`} id="videoContainer" isDark={dark}>
           <Loading isLoading={!duration}>
             <p>loading..</p>
           </Loading>
           <InnerContainer
             isFull={!withVideo}
-            disableControl={_.get(input, "template.disableControl")}
+            disableControl={_.get(input, 'template.disableControl')}
           >
             <InnerContent key={key}>
               {content.map((data, index) => {
@@ -230,7 +234,7 @@ const Base = ({ input, paragraphs, width, transcription }) => {
                     frameInfo={frameInfo}
                     isFull={!withVideo}
                     template={input.template}
-                    disableControl={_.get(input, "template.disableControl")}
+                    disableControl={_.get(input, 'template.disableControl')}
                     currentParagraphs={currentParagraphs}
                   />
                 );
@@ -249,13 +253,13 @@ const Base = ({ input, paragraphs, width, transcription }) => {
               reset={reset}
               togglePlay={togglePlay}
               jump={jump}
-              disableControl={_.get(input, "template.disableControl")}
+              disableControl={_.get(input, 'template.disableControl')}
             />
             <ControllerLine content={content} />
           </ControllerContainer>
         </Container>
-        <div className="h-[20%] w-full" >
-          <Subtitles subtitles={transcription} ></Subtitles>
+        <div className="h-[20%] w-full">
+          <Subtitles subtitles={transcription}></Subtitles>
         </div>
       </div>
     </>
@@ -278,7 +282,7 @@ const ControllerContainer = styled.div`
   position: relative;
   background-color: black;
 `;
-const InnerContainer = styled.div.attrs({ className: "frame" })`
+const InnerContainer = styled.div.attrs({ className: 'frame' })`
   flex: 1;
   display: flex;
   align-items: stretch;
@@ -307,7 +311,7 @@ const Container = styled.div`
   box-sizing: border-box;
   align-items: stretch;
   position: relative;
-  background-color: ${(props) => (props.isDark ? `rgb(47, 48, 48)` : "white")};
+  background-color: ${(props) => (props.isDark ? `rgb(47, 48, 48)` : 'white')};
   @supports (-webkit-touch-callout: none) {
     height: -webkit-fill-available;
   }

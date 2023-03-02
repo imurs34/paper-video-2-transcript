@@ -15,9 +15,7 @@ function Control({ jump }) {
   };
   return (
     <ProgressBarLine onClick={jumpToPlay} ref={ref}>
-      <ProgressBarFilled percent={percent}>
-        {/* <Circle /> */}
-      </ProgressBarFilled>
+      <ProgressBarFilled percent={percent} />
     </ProgressBarLine>
   );
 }
@@ -35,18 +33,10 @@ const ProgressBarFilled = styled.div`
   color: white;
   flex-basis: ${(props) => props.percent}%;
   background-color: red;
-  z-index: 150;
+  z-index: 1500;
   height: 10px;
   position: relative;
 `;
-const Circle = styled.div`
-  width: 15px;
-  height: 15px;
-  position: absolute;
-  left: calc(100% - 5px);
-  top: -2px;
-  background-color: red;
-  border-radius: 45%;
-`;
+
 
 export default Control;

@@ -1,0 +1,37 @@
+[
+  {
+    "index": 0,
+    "colour": "red",
+    "start": "00:00",
+    "final": "01:00",
+    "description": "Flag 1"
+  },
+  {
+    "index": 1,
+    "colour": "green",
+    "start": "01:01",
+    "final": "02:00",
+    "description": "Flag2"
+  },
+  {
+    "index": 2,
+    "colour": "blue",
+    "start": "02:01",
+    "final": "03:00",
+    "description": "Flag2"
+  },
+  {
+    "index": 3,
+    "colour": "purple",
+    "start": "03:01",
+    "final": "03:30",
+    "description": "Flag2"
+  },
+  {
+    "index": 3,
+    "colour": "yellow",
+    "start": "03:31",
+    "final": "04:27",
+    "description": "Flag2"
+  }
+]
