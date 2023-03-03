@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import pdfmap from "../pdfmap1.json";
-import { useAtom } from "jotai";
+import React, { useState, useEffect } from 'react';
+import pdfmap from '../pdfmap1.json';
+import { useAtom } from 'jotai';
 import { useSelector } from 'react-redux';
-import { paragraphAtom, activityAtom } from "../atom";
-import { Viewer, Worker, SpecialZoomLevel } from "@react-pdf-viewer/core";
-import { highlightPlugin, Trigger } from "@react-pdf-viewer/highlight";
-import { pageNavigationPlugin } from "@react-pdf-viewer/page-navigation";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import "@react-pdf-viewer/highlight/lib/styles/index.css";
-import pdfmap2 from "../pdfmap2.json";
-import pdf1copy from "../pdf1copy.json";
-import pdf2copy from "../pdfmap2copy.json";
-import blockColours from "../constants/colourBlock";
-import sectionBlock from "../constants/sectionBlock";
+import { paragraphAtom, activityAtom } from '../atom';
+import { Viewer, Worker, SpecialZoomLevel } from '@react-pdf-viewer/core';
+import { highlightPlugin, Trigger } from '@react-pdf-viewer/highlight';
+import { pageNavigationPlugin } from '@react-pdf-viewer/page-navigation';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/highlight/lib/styles/index.css';
+import pdfmap2 from '../pdfmap2.json';
+import pdf1copy from '../pdf1copy.json';
+import pdf2copy from '../pdfmap2copy.json';
+import blockColours from '../constants/colourBlock';
+import sectionBlock from '../constants/sectionBlock';
 
 function PdfView2({ width }) {
-  const [paragraphs, setParagraphAtom] = useAtom(paragraphAtom)
+  const [paragraphs, setParagraphAtom] = useAtom(paragraphAtom);
   const [current] = useAtom(activityAtom);
   const pageNavigationPluginInstance = pageNavigationPlugin();
   const { jumpToPage } = pageNavigationPluginInstance;
@@ -34,177 +34,145 @@ function PdfView2({ width }) {
 
   useEffect(() => {
     try {
-      if (paragraphs) {
-        let array = []
-        pdfmap.forEach((item) => {
-          if (paragraphs.paragraph.find(element => element === (item.id))) {
-            if (paragraphs?.paragraph[0] && (Number(item.id) == paragraphs?.paragraph[0])) {
-              jumpToPage(item.pageIndex - 1);
-            }
-            if (item?.highlights && item.highlights.length > 0)
-              array.push({ ...item?.highlights[0], pageIndex: item.pageIndex - 1 })
+      if (!paragraphs) return;
+
+      const areas = pdfmap
+        .filter((item) => paragraphs.paragraph.includes(item.id))
+        .flatMap((item) => {
+          if (paragraphs.paragraph[0] && Number(item.id) === paragraphs.paragraph[0]) {
+            jumpToPage(item.pageIndex - 1);
           }
-        })
-        setAreas(array);
+          return item.highlights?.length > 0
+            ? { ...item.highlights[0], pageIndex: item.pageIndex - 1 }
+            : [];
+        });
 
-      }
+      setAreas(areas);
     } catch (error) {
-      console.log("error  ", error.message)
+      console.log('error  ', error.message);
     }
-
   }, [paragraphs]);
-  
+
   useEffect(() => {
-    const found = pdfmap2.find(item => item.slide_id === current.slide)
-    if (found)
-      setParagraphAtom(found)
+    const found = pdfmap2.find((item) => item.slide_id === current.slide);
+    if (found) {
+      setParagraphAtom(found);
+    }
   }, [current]);
 
   const clicked = (index) => {
-    pdfmap.map((item) => {
-      if (Number(item.id) == paragraphs.paragraph[index]) {
-        jumpToPage(item.pageIndex - 1);
-      }
-    });
+    const foundItem = pdfmap.find((item) => Number(item.id) === paragraphs.paragraph[index]);
+    if (foundItem) {
+      jumpToPage(foundItem.pageIndex - 1);
+    }
   };
 
-  useEffect(() => {
-    const el = document.getElementById("highlight-area");
+  const scrollIntoView = () => {
+    const el = document.getElementById('highlight-area');
     if (el) {
       setTimeout(() => {
         el.scrollIntoView({
-          block: "center",
-          // inline: "center",
+          block: 'center',
         });
       }, 500);
     }
+  };
+
+  useEffect(() => {
+    scrollIntoView();
   }, [ref]);
 
-  const paragraphColour = (array, colour, props) => (
+  const paragraphColour = (array, colour, props) =>
     pdf2copy
-        .filter((item, index) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
-        .map((area, idx) => (
-          <div 
-          style={Object.assign(
-            {},
-            props.getCssProperties(area.highlights[0], props.rotation),
-            {
-              [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `10px solid ${colour}`,
-              [area.highlights[0].left > 50 && 'marginLeft']: '14px',
-              [area.highlights[0].left < 50 && 'marginLeft']: '-14px',
-            },
-            
-          )}
-          />
-        ))
-)
-
-const sectionColour = (array, colour, props) => (
-  pdf1copy
-      .filter((item, index) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
-      .map((area, idx) => (
-        <div 
-        style={Object.assign(
-          {},
-          props.getCssProperties(area.highlights[0], props.rotation),
-          {
+      .filter((item) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
+      .map((area) => (
+        <div
+          style={{
+            ...props.getCssProperties(area.highlights[0], props.rotation),
             [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `10px solid ${colour}`,
-            [area.highlights[0].left > 50 && 'marginLeft']: '26px',
-            [area.highlights[0].left < 50 && 'marginLeft']: '-26px',
-          },
-          
-        )}
+            ...(area.highlights[0].left > 50 && { marginLeft: '14px' }),
+            ...(area.highlights[0].left < 50 && { marginLeft: '-14px' }),
+          }}
         />
-      ))
-)
+      ));
 
-  const highlightColour = (array, colour, props) => (
+  const sectionColour = (array, colour, props) =>
+    pdf1copy
+      .filter((item) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
+      .map((area) => (
+        <div
+          style={{
+            ...props.getCssProperties(area.highlights[0], props.rotation),
+            [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `10px solid ${colour}`,
+            ...(area.highlights[0].left > 50 && { marginLeft: '26px' }),
+            ...(area.highlights[0].left < 50 && { marginLeft: '-26px' }),
+          }}
+        />
+      ));
+
+  const highlightColour = (array, colour, props) =>
     pdfmap
-          .filter((item, index) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
-          .map((area, idx) => (
-            <div
-              key={idx}
-
-              style={Object.assign(
-                {},
-                {
-                  background: colour,
-                  opacity: 0.18,
-                  mixBlendMode: 'multiply',
-                },
-                props.getCssProperties(area.highlights[0], props.rotation)
-              )}
-            />
-          ))
-  )
-
-  
+      .filter((item) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
+      .map((area, idx) => (
+        <div
+          key={idx}
+          style={{
+            background: colour,
+            opacity: 0.18,
+            mixBlendMode: 'multiply',
+            ...props.getCssProperties(area.highlights[0], props.rotation),
+          }}
+        />
+      ));
 
   const renderHighlights = (props) => (
-    < div >
-    {
-      areas
-          .filter((area) => area.pageIndex === props.pageIndex)
-          .map((area, idx) => (
-            <div style={{display: 'flex'}} key={idx}>
+    <div>
+      {areas
+        .filter((area) => area.pageIndex === props.pageIndex)
+        .map((area, idx) => (
+          <div style={{ display: 'flex' }} key={idx}>
             <div
               className="highlight-area z-10"
               id="highlight-area"
               ref={(ref) => setRef(ref)}
-              style={Object.assign(
-                {},
-                {
-                  background: "yellow",
-                  opacity: 0.18,
-                  mixBlendMode: "multiply",
-                },
-                props.getCssProperties(area, props.rotation)
-              )}
+              style={{
+                background: 'yellow',
+                opacity: 0.18,
+                mixBlendMode: 'multiply',
+                ...props.getCssProperties(area, props.rotation),
+              }}
             />
-            </div>
-          ))
-    }
+          </div>
+        ))}
 
-    {/* MAP1 */}
-    {map1Toggle && (
-      sectionBlock.map((item, index) => sectionColour(item.paragraph, item.colour, props))
-    )}
+      {/* MAP1 */}
+      {map1Toggle && sectionBlock.map((item) => sectionColour(item.paragraph, item.colour, props))}
 
-    {/* MAP2 */}
-    {map2Toggle && (
-      <>
-        {/* {paragraphColour.map((item, index) => highlightColour(item.paragraph, item.background, props))} */}
-        {blockColours.map((item, index) => paragraphColour(item.paragraph, item.colour, props))}
-      </>
-    )}
-    </div >
+      {/* MAP2 */}
+      {map2Toggle && (
+        <>
+          {/* {paragraphColour.map((item, index) => highlightColour(item.paragraph, item.background, props))} */}
+          {blockColours.map((item) => paragraphColour(item.paragraph, item.colour, props))}
+        </>
+      )}
+    </div>
   );
-
-
 
   const highlightPluginInstance = highlightPlugin({
     renderHighlights,
     trigger: Trigger.None,
   });
 
-
-
-
   return (
     <div
-      className={`pdfview m-auto w-[${width - 20
-        }rem] overflow-auto h-full items-center flex justify-center relative`}
+      className={`pdfview m-auto w-[${
+        width - 20
+      }rem] overflow-auto h-full items-center flex justify-center relative`}
     >
-      <div className={` w-full h-[100vh]  overflow-auto  flex-col `}>
-        <div className={` w-[90%] m-auto  h-[90vh]  overflow-auto  flex-col `}>
+      <div className="w-full h-[100vh] overflow-auto flex-col">
+        <div className="w-[90%] m-auto h-[90vh] overflow-auto flex-col">
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.1.81/build/pdf.worker.js">
-            <div
-              style={{
-                alignItems: "center",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            ></div>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}></div>
             <Viewer
               fileUrl="/pdfs/visifit.pdf"
               defaultScale={SpecialZoomLevel.PageFit}
@@ -216,42 +184,31 @@ const sectionColour = (array, colour, props) => (
             />
           </Worker>
         </div>
-        <div className={`flex flex-col text-white ml-12  mt-2 text-sm `}>
-          {(() => {
-            if (paragraphs) {
-              if (paragraphs.sections) {
-                let sections = paragraphs.sections.replace(/'/g, '"'); //replacing all ' with "
-                let scores = paragraphs.scores;
-                sections = JSON.parse(sections);
-
-                let buttons = [];
-                for (let i = 0; i < sections.length; i++) {
-                  let para = "";
-                  pdfmap.map((item) => {
-                    if (Number(item.id) == paragraphs.paragraph[i]) {
-                      para = item.paragraphs.split(" ").slice(0, 7).join(" ");
-                    }
-                  });
-
-                  buttons.push(
-                    <div className="flex items-center my-1" key={i}>
-                      <div
-                        onClick={() => clicked(i)}
-                        type="button"
-                        className={`${scores[i] < 0.7 ? "bg-yellow-500" : "bg-rose-800"
-                          } text-white w-44  py-3  cursor-pointer rounded-lg text-center font-extrabold font-sans mr-3`}
-                      >
-                        {sections[i]}
-                      </div>
-                      <span>{para}...</span>
-                    </div>
-                  );
+        <div className="flex flex-col text-white ml-12 mt-2 text-sm">
+          {paragraphs?.sections &&
+            paragraphs.sections.replace(/'/g, '"').map((section, i) => {
+              let para = '';
+              pdfmap.forEach((item) => {
+                if (Number(item.id) === paragraphs.paragraph[i]) {
+                  para = item.paragraphs.split(' ').slice(0, 7).join(' ');
                 }
+              });
 
-                return buttons;
-              }
-            }
-          })()}
+              return (
+                <div className="flex items-center my-1" key={i}>
+                  <div
+                    onClick={() => clicked(i)}
+                    type="button"
+                    className={`${
+                      paragraphs.scores[i] < 0.7 ? 'bg-yellow-500' : 'bg-rose-800'
+                    } text-white w-44 py-3 cursor-pointer rounded-lg text-center font-extrabold font-sans mr-3`}
+                  >
+                    {section}
+                  </div>
+                  <span>{para}...</span>
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>
@@ -260,18 +217,10 @@ const sectionColour = (array, colour, props) => (
 
 export default PdfView2;
 
-const renderToolbar = (Toolbar) => (
-  <Toolbar>
-    {(slots) => {
-      const {
-        CurrentPageInput,
-        CurrentScale,
-        GoToNextPage,
-        GoToPreviousPage,
-        ZoomIn,
-        ZoomOut,
-      } = slots;
-      return (
+const renderToolbar = (Toolbar) => {
+  return (
+    <Toolbar>
+      {({ CurrentPageInput, CurrentScale, GoToNextPage, GoToPreviousPage, ZoomIn, ZoomOut }) => (
         <div className="flex justify-center w-full">
           <div>
             <GoToPreviousPage />
@@ -288,7 +237,7 @@ const renderToolbar = (Toolbar) => (
             <ZoomIn />
           </div>
         </div>
-      );
-    }}
-  </Toolbar>
-);
+      )}
+    </Toolbar>
+  );
+};
