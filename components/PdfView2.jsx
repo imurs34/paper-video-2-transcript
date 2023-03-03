@@ -89,9 +89,9 @@ function PdfView2({ width }) {
             {},
             props.getCssProperties(area.highlights[0], props.rotation),
             {
-              [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `10px solid ${colour}`,
-              [area.highlights[0].left > 50 && 'marginLeft']: '14px',
-              [area.highlights[0].left < 50 && 'marginLeft']: '-14px',
+              [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `6px solid ${colour}`,
+              [area.highlights[0].left > 50 && 'marginLeft']: '8px',
+              [area.highlights[0].left < 50 && 'marginLeft']: '-8px',
             },
             
           )}
@@ -108,9 +108,9 @@ const sectionColour = (array, colour, props) => (
           {},
           props.getCssProperties(area.highlights[0], props.rotation),
           {
-            [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `10px solid ${colour}`,
-            [area.highlights[0].left > 50 && 'marginLeft']: '26px',
-            [area.highlights[0].left < 50 && 'marginLeft']: '-26px',
+            [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `6px solid ${colour}`,
+            [area.highlights[0].left > 50 && 'marginLeft']: '16px',
+            [area.highlights[0].left < 50 && 'marginLeft']: '-16px',
           },
           
         )}
