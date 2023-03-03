@@ -37,7 +37,7 @@ const Subtitles = ({ subtitles }) => {
             }}
             tabIndex={focusedId === sub.index ? 0 : -1}
           >
-            <div className="w-[10%] flex items-center">
+            <div className="w-[20%] flex items-center">
               <button className="p-1 flex items-center h-6 text-white text-sm bg-gray-500 rounded-full">
                 {sub.start}
               </button>
@@ -61,7 +61,7 @@ const Subtitles = ({ subtitles }) => {
                     ),
                 )}
             </div>
-            <h1 className="w-[90%] py-3 text-white text-xl">{sub.text}</h1>
+            <h1 className="w-[100%] py-3 text-white text-xl">{sub.text}</h1>
           </div>
         );
       })}
