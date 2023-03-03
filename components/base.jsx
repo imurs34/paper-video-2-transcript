@@ -101,7 +101,6 @@ const Segmentation = styled.div`
   height: 10px;
   position: absolute;
   left: 100%;
-  z-index: 999;
   /* border-radius: 45%; */
   background-color: ${(props) => props.colour};
 `;
@@ -124,7 +123,6 @@ const Line = styled.div`
   width: 100%;
   height: 20px;
   position: absolute;
-  z-index: 200;
   overflow: hidden;
   top: 0;
 `;

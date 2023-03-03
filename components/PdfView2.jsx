@@ -104,6 +104,7 @@ const sectionColour = (array, colour, props) => (
       .filter((item, index) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
       .map((area, idx) => (
         <div 
+        key={idx}
         style={Object.assign(
           {},
           props.getCssProperties(area.highlights[0], props.rotation),
