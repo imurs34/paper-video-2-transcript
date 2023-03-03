@@ -38,6 +38,7 @@ const positionSegmentation = (start, duration, index) => {
 
 const ControllerLine = ({ content }) => {
   const [duration] = useAtom(durationAtom);
+  const [show, setShow] = useState(false);
 
   const startTimes = _.map(content, 'end_time');
   if (!duration) {
@@ -48,8 +49,12 @@ const ControllerLine = ({ content }) => {
     );
   }
 
+  const onHoverDiv = (e) => {
+    console.log('ola');
+  };
+
   return (
-    <Line>
+    <Line className='line'>
       {timelineColour.map((time, index, array) => {
         const previousStartTimesSum =
           index === 0
@@ -61,11 +66,16 @@ const ControllerLine = ({ content }) => {
         const previousFinal = index === 0 ? 0 : convertTime(array[index - 1].final);
         const value = ((convertTime(time.final) - previousFinal) / duration) * 100;
         return (
-          <div key={index}>
-            <LinePoint key={shortid.generate()} colour={time.colour} value={value} start={start}>
-              <Segmentation colour="transparent" />
-            </LinePoint>
-          </div>
+          <LinePoint
+            key={shortid.generate()}
+            colour={time.colour}
+            value={value}
+            start={start}
+            onMouseEnter={onHoverDiv}
+            className="linePoint"
+          >
+            <Segmentation colour="transparent" />
+          </LinePoint>
         );
       })}
     </Line>

@@ -7,6 +7,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
     "@react-pdf-viewer/core": "^3.11.0",
     "@react-pdf-viewer/default-layout": "^3.11.0",
     "@react-pdf-viewer/highlight": "^3.10.0",
