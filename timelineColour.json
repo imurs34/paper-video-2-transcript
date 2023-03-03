@@ -4,34 +4,34 @@
     "colour": "red",
     "start": "00:00",
     "final": "01:00",
-    "label": "Flag 1"
+    "label": "Section 1"
   },
   {
     "index": 1,
     "colour": "green",
     "start": "01:00",
     "final": "02:00",
-    "label": "Flag2"
+    "label": "Section 2"
   },
   {
     "index": 2,
     "colour": "blue",
     "start": "02:00",
     "final": "03:00",
-    "label": "Flag3"
+    "label": "Section 3"
   },
   {
     "index": 3,
     "colour": "purple",
     "start": "03:00",
     "final": "03:30",
-    "label": "Flag4"
+    "label": "Section 4"
   },
   {
     "index": 4,
     "colour": "yellow",
     "start": "03:30",
     "final": "04:27",
-    "label": "Flag5"
+    "label": "Section 5"
   }
 ]

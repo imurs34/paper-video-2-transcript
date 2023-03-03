@@ -77,7 +77,7 @@ const ProgressBarLine = styled.div`
 const ProgressBarFilled = styled.div`
   color: white;
   flex-basis: ${(props) => props.percent}%;
-  background-color: red;
+  background-color: rgba(0, 0, 0, 0.7);
   height: 10px;
   position: relative;
   z-index: 200;
