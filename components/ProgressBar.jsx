@@ -20,6 +20,9 @@ function Control({ jump }) {
     div.style.position = 'absolute';
     div.style.color = 'white';
     div.style.textShadow = '4px 4px 4px rgba(0, 0, 0, 0.5)';
+    div.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    div.style.padding = '4px';
+    div.style.borderRadius = '4px';
     div.classList.add('thelabel');
     div.style.transform = 'translateX(-50%)'
     body.style.position = 'relative';
@@ -40,7 +43,7 @@ function Control({ jump }) {
       
       if (e.clientX > rect.x && e.clientX < rect.x + elementWidth) {
         div.innerText = timelineColour[index].label;
-        div.style.top = `${rect.y - 32}px`;
+        div.style.top = `${rect.y - 36}px`;
         div.style.left = `${e.clientX}px`;
         body.appendChild(div);
       }
@@ -77,7 +80,7 @@ const ProgressBarLine = styled.div`
 const ProgressBarFilled = styled.div`
   color: white;
   flex-basis: ${(props) => props.percent}%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.6);
   height: 10px;
   position: relative;
   z-index: 200;
