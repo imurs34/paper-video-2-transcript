@@ -30,13 +30,13 @@ const paragraph = [
 ];
 
 const sections = [
-  { initial: 0, final: 5, color: columbiaBlue },
-  { initial: 4, final: 7, color: linen },
-  { initial: 6, final: 10, color: champagnePink },
-  { initial: 9, final: 19, color: teaRose },
-  { initial: 18, final: 22, color: columbiaBlue },
-  { initial: 21, final: 24, color: linen },
-  { initial: 23, final: 28, color: champagnePink },
+  { initial: 1, final: 3, color: columbiaBlue },
+  { initial: 4, final: 6, color: linen },
+  { initial: 7, final: 9, color: champagnePink },
+  { initial: 10, final: 18, color: teaRose },
+  { initial: 19, final: 21, color: columbiaBlue },
+  { initial: 22, final: 23, color: linen },
+  { initial: 24, final: 27, color: champagnePink },
 ];
 
 export { paragraph, sections };
