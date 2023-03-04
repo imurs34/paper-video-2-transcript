@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { currentTimeAtom, darkModeAtom, mobileModeAtom, withFrameAtom } from '../atom';
-import objeto from '../constants/colourBlock';
+import objeto from '../constants/map2ColourBlock';
 import { paragraph, sections } from '../constants/transcriptBlock';
 
 const Subtitles = ({ subtitles }) => {

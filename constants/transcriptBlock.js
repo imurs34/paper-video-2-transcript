@@ -22,7 +22,6 @@ const paragraph = [
   { initial: 4, final: 6, color: salmon },
   { initial: 5, final: 7, color: petrolBlue },
   { initial: 6, final: 10, color: pink },
-  { initial: 10, final: 13, color: purple },
   { initial: 13, final: 16, color: lightGreen },
   { initial: 21, final: 24, color: darkBlue },
   { initial: 23, final: 25, color: salmon },
