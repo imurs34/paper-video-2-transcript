@@ -11,10 +11,10 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/highlight/lib/styles/index.css";
 import pdfmap2 from "../pdfmap2.json";
-import pdf1copy from "../pdf1copy.json";
+import map1PdfBars from "../map1PdfBars.json";
 import pdf2copy from "../pdfmap2copy.json";
 import blockColours from "../constants/colourBlock";
-import sectionBlock from "../constants/sectionBlock";
+import sectionBlock from "../constants/map1ColourBlock";
 
 function PdfView2({ width }) {
   const [paragraphs, setParagraphAtom] = useAtom(paragraphAtom)
@@ -100,7 +100,7 @@ function PdfView2({ width }) {
 )
 
 const sectionColour = (array, colour, props) => (
-  pdf1copy
+  map1PdfBars
       .filter((item, index) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
       .map((area, idx) => (
         <div 
@@ -168,7 +168,7 @@ const sectionColour = (array, colour, props) => (
 
     {/* MAP1 */}
     {map1Toggle && (
-      sectionBlock.map((item, index) => sectionColour(item.paragraph, item.colour, props))
+      sectionBlock.map((item, index) => sectionColour(item.jsonIndex, item.colour, props))
     )}
 
     {/* MAP2 */}
