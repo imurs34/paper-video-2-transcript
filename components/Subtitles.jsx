@@ -55,8 +55,8 @@ const Subtitles = ({ subtitles }) => {
               {map2Toggle &&
                 paragraph.map(
                   ({ initial, final, color }, index) =>
-                    sub.index > initial &&
-                    sub.index < final && (
+                    sub.index >= initial &&
+                    sub.index <= final && (
                       <div className={`w-4 h-full mr-2`} style={{ background: color }} />
                     ),
                 )}
