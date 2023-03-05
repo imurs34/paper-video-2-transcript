@@ -3,35 +3,42 @@
     "index": 0,
     "colour": "red",
     "start": "00:00",
-    "final": "01:00",
+    "final": "00:30",
     "label": "Section 1"
   },
   {
     "index": 1,
-    "colour": "green",
-    "start": "01:00",
-    "final": "02:00",
+    "colour": "violet",
+    "start": "00:30",
+    "final": "01:00",
     "label": "Section 2"
   },
   {
     "index": 2,
-    "colour": "blue",
-    "start": "02:00",
-    "final": "03:00",
+    "colour": "green",
+    "start": "01:00",
+    "final": "02:00",
     "label": "Section 3"
   },
   {
     "index": 3,
-    "colour": "purple",
-    "start": "03:00",
-    "final": "03:30",
+    "colour": "blue",
+    "start": "02:00",
+    "final": "03:00",
     "label": "Section 4"
   },
   {
     "index": 4,
+    "colour": "purple",
+    "start": "03:00",
+    "final": "03:30",
+    "label": "Section 5"
+  },
+  {
+    "index": 5,
     "colour": "yellow",
     "start": "03:30",
     "final": "04:27",
-    "label": "Section 5"
+    "label": "Section 6"
   }
 ]
