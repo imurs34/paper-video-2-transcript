@@ -18,44 +18,36 @@ const {
 
 const pdfBlock = [
   {
-    paragraph: [0, 1, 5, 9],
+    jsonIndex: [0, 1, 2, 3],
     colour: columbiaBlue,
-    background: '',
   },
   {
-    paragraph: [12, 13, 19],
+    jsonIndex: [4, 5, 6],
     colour: platinum,
-    background: '',
   },
   {
-    paragraph: [21, 24, 26],
+    jsonIndex: [7, 8, 9],
     colour: linen,
-    background: '',
   },
   {
-    paragraph: [27, 29, 33, 36, 40, 45],
+    jsonIndex: [10, 11, 12, 13, 14, 15],
     colour: champagnePink,
-    background: '',
   },
   {
-    paragraph: [48, 49, 50, 58, 61],
+    jsonIndex: [16, 17, 18, 19, 20],
     colour: teaRose,
-    background: '',
   },
   {
-    paragraph: [66, 75, 76, 84],
+    jsonIndex: [21, 22, 23, 24],
     colour: columbiaBlue,
-    background: '',
   },
   {
-    paragraph: [85, 89, 94, 99, 101, 104],
+    jsonIndex: [25, 26, 27, 28, 29, 31],
     colour: linen,
-    background: '',
   },
   {
-    paragraph: [102],
+    jsonIndex: [30],
     colour: champagnePink,
-    background: '',
   },
 ];
 

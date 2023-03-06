@@ -17,26 +17,25 @@ const {
 } = palleteColours;
 
 const paragraph = [
-  { initial: 0, final: 3, color: yellow },
-  { initial: 2, final: 5, color: darkBlue },
-  { initial: 4, final: 6, color: salmon },
-  { initial: 5, final: 7, color: petrolBlue },
-  { initial: 6, final: 10, color: pink },
-  { initial: 10, final: 13, color: purple },
-  { initial: 13, final: 16, color: lightGreen },
-  { initial: 21, final: 24, color: darkBlue },
-  { initial: 23, final: 25, color: salmon },
-  { initial: 25, final: 28, color: petrolBlue },
+  { initial: 1, final: 2, color: yellow },
+  { initial: 3, final: 4, color: darkBlue },
+  { initial: 5, final: 5, color: salmon },
+  { initial: 6, final: 6, color: petrolBlue },
+  { initial: 7, final: 9, color: pink },
+  { initial: 14, final: 15, color: lightGreen },
+  { initial: 22, final: 23, color: darkBlue },
+  { initial: 24, final: 24, color: salmon },
+  { initial: 26, final: 27, color: petrolBlue },
 ];
 
 const sections = [
-  { initial: 0, final: 5, color: columbiaBlue },
-  { initial: 4, final: 7, color: linen },
-  { initial: 6, final: 10, color: champagnePink },
-  { initial: 9, final: 19, color: teaRose },
-  { initial: 18, final: 22, color: columbiaBlue },
-  { initial: 21, final: 24, color: linen },
-  { initial: 23, final: 28, color: champagnePink },
+  { initial: 1, final: 3, color: columbiaBlue },
+  { initial: 4, final: 6, color: linen },
+  { initial: 7, final: 9, color: champagnePink },
+  { initial: 10, final: 18, color: teaRose },
+  { initial: 19, final: 21, color: columbiaBlue },
+  { initial: 22, final: 23, color: linen },
+  { initial: 24, final: 27, color: champagnePink },
 ];
 
 export { paragraph, sections };

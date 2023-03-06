@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { currentTimeAtom, darkModeAtom, mobileModeAtom, withFrameAtom } from '../atom';
-import objeto from '../constants/colourBlock';
+import objeto from '../constants/map2ColourBlock';
 import { paragraph, sections } from '../constants/transcriptBlock';
 
 const Subtitles = ({ subtitles }) => {
@@ -45,8 +45,8 @@ const Subtitles = ({ subtitles }) => {
               {map1Toggle &&
                 sections.map(
                   ({ initial, final, color }, index) =>
-                    sub.index > initial &&
-                    sub.index < final && (
+                    sub.index >= initial &&
+                    sub.index <= final && (
                       <div className={`w-4 h-full mr-2`} style={{ background: color }} />
                     ),
                 )}
@@ -55,8 +55,8 @@ const Subtitles = ({ subtitles }) => {
               {map2Toggle &&
                 paragraph.map(
                   ({ initial, final, color }, index) =>
-                    sub.index > initial &&
-                    sub.index < final && (
+                    sub.index >= initial &&
+                    sub.index <= final && (
                       <div className={`w-4 h-full mr-2`} style={{ background: color }} />
                     ),
                 )}
