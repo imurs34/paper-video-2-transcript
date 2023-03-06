@@ -11,10 +11,10 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/highlight/lib/styles/index.css';
 import pdfmap2 from '../pdfmap2.json';
-import pdf1copy from '../pdf1copy.json';
-import pdf2copy from '../pdfmap2copy.json';
-import blockColours from '../constants/colourBlock';
-import sectionBlock from '../constants/sectionBlock';
+import map1PdfBars from '../map1PdfBars.json';
+import pdf2copy from '../map2PdfBars.json';
+import blockColours from '../constants/map2ColourBlock';
+import sectionBlock from '../constants/map1ColourBlock';
 
 function PdfView2({ width }) {
   const [paragraphs, setParagraphAtom] = useAtom(paragraphAtom);
@@ -25,10 +25,6 @@ function PdfView2({ width }) {
     renderToolbar,
     sidebarTabs: () => [],
   });
-
-  const [getZoom, setZoom] = useState(1);
-
-  const handleZoom = (e) => setZoom(e.scale);
 
   const [areas, setAreas] = React.useState([]);
   const [ref, setRef] = useState(null);
@@ -81,10 +77,13 @@ function PdfView2({ width }) {
     }
   }, [ref]);
 
+  const [getZoom, setZoom] = useState(1);
+
+  const handleZoom = (e) => setZoom(e.scale);
+
   const pdfBlockBorderWitdh = 6 * getZoom;
   const sectionBars = 16 * getZoom;
   const paragraphBars = 8 * getZoom;
-
 
   const paragraphColour = (array, colour, props) =>
     pdf2copy
@@ -92,7 +91,9 @@ function PdfView2({ width }) {
       .map((area, idx) => (
         <div
           style={Object.assign({}, props.getCssProperties(area.highlights[0], props.rotation), {
-            [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `${pdfBlockBorderWitdh}px solid ${colour}`,
+            [area.highlights[0].left > 50
+              ? 'borderRight'
+              : 'borderLeft']: `${pdfBlockBorderWitdh}px solid ${colour}`,
             [area.highlights[0].left > 50 && 'marginLeft']: `${paragraphBars}px`,
             [area.highlights[0].left < 50 && 'marginLeft']: `-${paragraphBars}px`,
           })}
@@ -100,13 +101,15 @@ function PdfView2({ width }) {
       ));
 
   const sectionColour = (array, colour, props) =>
-    pdf1copy
+    map1PdfBars
       .filter((item, index) => array.includes(item.id) && props.pageIndex === item.pageIndex - 1)
       .map((area, idx) => (
         <div
           key={idx}
           style={Object.assign({}, props.getCssProperties(area.highlights[0], props.rotation), {
-            [area.highlights[0].left > 50 ? 'borderRight' : 'borderLeft']: `${pdfBlockBorderWitdh}px solid ${colour}`,
+            [area.highlights[0].left > 50
+              ? 'borderRight'
+              : 'borderLeft']: `${pdfBlockBorderWitdh}px solid ${colour}`,
             [area.highlights[0].left > 50 && 'marginLeft']: `${sectionBars}px`,
             [area.highlights[0].left < 50 && 'marginLeft']: `-${sectionBars}px`,
           })}
@@ -156,12 +159,11 @@ function PdfView2({ width }) {
 
       {/* MAP1 */}
       {map1Toggle &&
-        sectionBlock.map((item, index) => sectionColour(item.paragraph, item.colour, props))}
+        sectionBlock.map((item, index) => sectionColour(item.jsonIndex, item.colour, props))}
 
       {/* MAP2 */}
       {map2Toggle && (
         <>
-          {/* {paragraphColour.map((item, index) => highlightColour(item.paragraph, item.background, props))} */}
           {blockColours.map((item, index) => paragraphColour(item.paragraph, item.colour, props))}
         </>
       )}
