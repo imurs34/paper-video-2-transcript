@@ -271,7 +271,7 @@ const Base = ({ input, paragraphs, width, transcription }) => {
         {!zoomOpen && (
           <div className={`h-[20%] w-full`}>
           <Subtitles subtitles={transcription}></Subtitles>
-        </div>
+        </div> // checked
         )}
       </div>
     </>
