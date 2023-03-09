@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components';
 import { createBreakpoint } from 'react-use';
 import { useAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
+import {useSelector } from 'react-redux';
 
 import Content from './Content';
 import Controller from './Controller';
@@ -52,6 +53,8 @@ const ControllerLine = ({ content }) => {
   const onHoverDiv = (e) => {
     console.log('ola');
   };
+
+
 
   return (
     <Line className='line'>
@@ -197,6 +200,8 @@ const Base = ({ input, paragraphs, width, transcription }) => {
     paragraphs(val);
   };
 
+  const zoomOpen = useSelector((state) => state.zoom.zoomOpen);
+
   return (
     <>
       <Head>
@@ -257,13 +262,14 @@ const Base = ({ input, paragraphs, width, transcription }) => {
             <ControllerLine content={content} />
           </ControllerContainer>
         </Container>
-        <div className="h-[20%] w-full">
+        <div className={`h-[${zoomOpen ? '100%' : '20%'}] w-full`}>
           <Subtitles subtitles={transcription}></Subtitles>
         </div>
       </div>
     </>
   );
 };
+
 
 const Block = styled.div`
   color: white;

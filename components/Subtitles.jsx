@@ -1,9 +1,11 @@
 import { useAtom } from 'jotai';
 import React, { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { currentTimeAtom, darkModeAtom, mobileModeAtom, withFrameAtom } from '../atom';
 import objeto from '../constants/map2ColourBlock';
 import { paragraph, sections } from '../constants/transcriptBlock';
+import { AiOutlineFullscreenExit, AiOutlineFullscreen } from 'react-icons/ai';
+import { toggleZoom } from '../redux/reducers/zoomReducer';
 
 const Subtitles = ({ subtitles }) => {
   const [currentTime] = useAtom(currentTimeAtom);
@@ -25,8 +27,31 @@ const Subtitles = ({ subtitles }) => {
 
   const { map1: map1Toggle, map2: map2Toggle } = useSelector((state) => state.toggle);
 
+  const dispatch = useDispatch();
+
+  const zoomOpen = useSelector((state) => state.zoom.zoomOpen);
+
+  const handleZoom = () => {
+    dispatch(toggleZoom());
+    const tste = document.querySelector('#videoContainer');
+    tste.style.display = zoomOpen ? 'flex' : 'none';
+  };
+
   return (
-    <div className="flex flex-col w-full h-full z-40 overflow-y-auto">
+    <div className="flex flex-col w-full h-full z-40 overflow-y-auto relative">
+      <div className="absolute top-1 right-5 p-4 border-purple-500 ">
+        {zoomOpen ? (
+          <AiOutlineFullscreenExit
+            className="fixed text-white text-2xl z-50 cursor-pointer bg-indigo-800 rounded"
+            onClick={handleZoom}
+          />
+        ) : (
+          <AiOutlineFullscreen
+            className="fixed text-white text-2xl z-50 cursor-pointer bg-indigo-800 rounded"
+            onClick={handleZoom}
+          />
+        )}
+      </div>
       {subtitles?.map((sub, index) => {
         return (
           <div
