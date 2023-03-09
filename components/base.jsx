@@ -262,7 +262,7 @@ const Base = ({ input, paragraphs, width, transcription }) => {
             <ControllerLine content={content} />
           </ControllerContainer>
         </Container>
-        <div className={`h-[${zoomOpen ? '100%' : '20%'}] w-full`}>
+        <div className={`h-[${zoomOpen ? '100%' : '20%'}] w-full dasdsa`}>
           <Subtitles subtitles={transcription}></Subtitles>
         </div>
       </div>
