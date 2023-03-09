@@ -14,6 +14,9 @@ const {
   mintCream,
   columbiaBlue,
   teaRose,
+  mintGreen,
+  beige,
+  lemonYellow
 } = palleteColours;
 
 const pdfBlock = [
@@ -22,16 +25,12 @@ const pdfBlock = [
     colour: columbiaBlue,
   },
   {
-    jsonIndex: [4, 5, 6],
-    colour: platinum,
-  },
-  {
     jsonIndex: [7, 8, 9],
     colour: linen,
   },
   {
     jsonIndex: [10, 11, 12, 13, 14, 15],
-    colour: champagnePink,
+    colour: beige,
   },
   {
     jsonIndex: [16, 17, 18, 19, 20],
@@ -39,16 +38,12 @@ const pdfBlock = [
   },
   {
     jsonIndex: [21, 22, 23, 24],
-    colour: columbiaBlue,
+    colour: mintCream,
   },
   {
-    jsonIndex: [25, 26, 27, 28, 29, 31],
-    colour: linen,
-  },
-  {
-    jsonIndex: [30],
-    colour: champagnePink,
-  },
+    jsonIndex: [25, 26, 27, 28, 29, 30, 31],
+    colour: lemonYellow,
+  }
 ];
 
 export default pdfBlock;

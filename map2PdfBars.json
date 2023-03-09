@@ -14,48 +14,6 @@
       ]
   },
   {
-      "section_id": 0,
-      "id": 1,
-      "paragraphs": "Figure 1: Two examples of how the VisiFit system can improve a visual blend prototype in under 4 minutes. The left image blends New York City and autumn. The right image blends navel orange and winter. ABSTRACT Visual blends are an advanced graphic design technique to seam-lessly integrate two objects into one. Existing tools help novices cre-ate prototypes of blends, but it is unclear how they would improve them to be higher fdelity. To help novices, we aim to add structure to the iterative improvement process. We introduce a method for im-proving prototypes that uses secondary design dimensions to explore a structured design space. This method is grounded in the cognitive principles of human visual object recognition. We present VisiFit \u2013 a computational design system that uses this method to enable novice graphic designers to improve blends with computationally generated options they can select, adjust, and chain together. Our evaluation shows novices can substantially improve 76% of blends in under 4 minutes. We discuss how the method can be generalized ",
-      "pageIndex": 1,
-      "highlights": [
-          {
-              "height": 23.37845696969697,
-              "width": 39.61,
-              "left": 8.63,
-              "top": 51.05900626262626
-          }
-      ]
-  },
-  {
-      "section_id": 0,
-      "id": 2,
-      "paragraphs": "Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for proft or commercial advantage and that copies bear this notice and the full citation on the frst page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specifc permission and/or a fee. Request permissions from permissions@acm.org. CHI \u201921, May 8\u201313, 2021, Yokohama, Japan \u00a9 2021 Association for Computing Machinery. ACM ISBN 978-1-4503-8096-6/21/05...$15.00 https://doi.org/10.1145/3411764.3445089 ",
-      "pageIndex": 1,
-      "highlights": [
-          {
-              "height": 11.67251845959596,
-              "width": 39.61,
-              "left": 8.63,
-              "top": 77.83007681818182
-          }
-      ]
-  },
-  {
-      "section_id": 0,
-      "id": 3,
-      "paragraphs": "ACM Reference Format: Lydia B. Chilton, Ecenaz Jen Ozmen, Sam Ross, and Vivian Liu. 2021. VisiFit: Structuring Iterative Improvement for Novice Designers. In CHI Conference on Human Factors in Computing Systems (CHI \u201921), May 8\u201313, 2021, Yokohama, Japan. ACM, New York, NY, USA, 14 pages. https://doi.org/10.1145/3411764. 3445089 ",
-      "pageIndex": 1,
-      "highlights": [
-          {
-              "height": 7.626047070707068,
-              "width": 39.61,
-              "left": 51.95,
-              "top": 70.74952258838384
-          }
-      ]
-  },
-  {
       "section_id": 0,   
       "id": 4,
       "paragraphs": "1 Iterative improvement is the essence of the iterative design process. No design is perfect at inception, thus iteration through prototypes is necessary to improve it. If a prototype passes an evaluation, it should become a new, higher fdelity prototype that can be tested and potentially iterated upon again. In case studies of improved ",
@@ -848,7 +806,7 @@
           {
               "height": 35.30031656565656,
               "width": 39.61,
-              "left": 54.5617077124183,
+              "left": 51.95,
               "top": 20.119722424242426
           }
       ]

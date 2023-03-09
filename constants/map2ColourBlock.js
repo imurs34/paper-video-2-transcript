@@ -18,27 +18,27 @@ const {
 
 const pdfBlock = [
   {
-    paragraph: [1, 2],
-    colour: yellow,
-  },
-  {
-    paragraph: [3, 4, 68, 69, 70, 71],
+    paragraph: [3, 4, 47, 64],
     colour: darkBlue,
   },
   {
-    paragraph: [14, 15, 16, 74],
+    paragraph: [21, 53, 65],
+    colour: yellow,
+  },
+  {
+    paragraph: [35, 57, 66, 91, 92, 93],
     colour: salmon,
   },
   {
-    paragraph: [30, 86, 87, 88, 89, 90],
+    paragraph: [],
     colour: petrolBlue,
   },
   {
-    paragraph: [31, 32, 33, 42, 43, 44, 45],
+    paragraph: [],
     colour: pink,
   },
   {
-    paragraph: [61, 62, 63, 64],
+    paragraph: [41, 59, 60, 73, 78],
     colour: lightGreen,
   },
 ];

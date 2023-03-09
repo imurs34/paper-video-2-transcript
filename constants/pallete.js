@@ -12,6 +12,10 @@ const palleteColours = {
   mintCream: '#DBE7E4',
   columbiaBlue: '#C6DEF1',
   teaRose: '#F9C6C9',
+  mintGreen: '#98FF98',
+  beige: '#f5f5dc',
+  lemonYellow: '#FEFF9E'
+
 };
 
 export default palleteColours;
